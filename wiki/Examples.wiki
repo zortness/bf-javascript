@@ -1,0 +1,40 @@
+#labels Featured,Phase-Implementation
+#Example uses for the interpreter and compiler.
+
+= Introduction =
+These examples are taken from the test cases included in the source/download.
+
+==Interpreter==
+To use the interpreter:
+  # Instantiate a new interpreter.
+  # Call the execute() method of the instantiated interpreter with a string containing the  BF program.
+  # Do something with the interpreter's output stream.
+
+{{{
+var bfi = new BrainFuckInterpreter();
+var helloWorld = '++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.';
+bfi.execute(helloWorld);
+document.write('Output from interpreter: ' + bfi.outStream');
+}}}
+
+=== Interpreter Notes ===
+  * The interpreter will execute all code sequentially in the same memory space until reset() is called.
+  * Input prompting is experimental.
+
+== Compiler ==
+To use the compiler:
+  # Instantiate a new compiler.
+  # Call the compile() method of the instantiated compiler with a string containing the BF program.
+  # Run the compiled program object returned from the compile() method using the run() method of the compiled object.
+  # Use the output from the program for something.
+
+{{{
+var bfc = new BrainFuckJSCompiler();
+var helloWorld = '++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.';
+var prog = bfc.compile(helloWorld);
+var output = prog.run();
+document.write('Program Output: ' + output);
+}}}
+
+=== Compiler Notes ===
+  * Input prompting is experimental.
