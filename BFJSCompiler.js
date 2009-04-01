@@ -80,7 +80,7 @@ function BFJSCompiler ()
 		}
 		command = command.split ('');
 		this.initProgram ();
-		if (this.currentBinType == this.binType.evalOnce)
+		if (this.currentBinType == this.binType.preEval)
 		{
 			this.addProgramCode ('this.tempExec = function (){ ');
 		}
@@ -93,7 +93,7 @@ function BFJSCompiler ()
 			this.compileCommand (command [this.commandPtr], command);
 			this.commandPtr ++;
 		}
-		if (this.currentBinType == this.binType.evalOnce)
+		if (this.currentBinType == this.binType.preEval)
 		{
 			this.addProgramCode ('};');
 			eval (this.program.code);
