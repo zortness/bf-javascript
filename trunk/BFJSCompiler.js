@@ -3,15 +3,23 @@
  * By Kurtis Kopf
  */
 
-function BrainFuckJSCompiler ()
+function BFJSCompiler ()
 {
 	this.program = {};
 	this.commandPtr = 0;
+	this.binType = {
+		alwaysEval: 'alwayseval',
+		preEval: 'preeval',
+		dump: 'dump'
+	};
+	this.currentBinType = this.binType.preEval;
+	this.tempExec = null;
 	
 	this.reset = function ()
 	{
 		this.program = {};
 		this.commandPtr = 0;
+		this.tempExec = null;
 	}
 	
 	this.initProgram = function ()
@@ -21,11 +29,19 @@ function BrainFuckJSCompiler ()
 			ptr: 0,
 			outStream: '',
 			code: '',
+			exec: null,
 			run: function () {
 				this.stack = [];
 				this.ptr = 0;
 				this.outStream = '';
-				eval (this.code);
+				if (this.exec != null)
+				{
+					this.exec ();
+				}
+				else
+				{
+					eval (this.code);
+				}
 				return (this.outStream);
 			},
 			init: function ()
@@ -38,18 +54,56 @@ function BrainFuckJSCompiler ()
 		};
 	}
 	
-	this.compile = function (command)
+	this.compile = function (command, bintype)
 	{
+		this.reset ();
+		var date = new Date ();
+		var tempName = '_temp' + date.getTime () + date.getMilliseconds ();
 		if (command == null || typeof (command) != 'string')
 		{
 			return;
 		}
+		switch (bintype)
+		{
+			case this.binType.alwaysEval:
+				this.currentBinType = this.binType.alwaysEval;
+				break;
+			case this.binType.preEval:
+				this.currentBinType = this.binType.preEval;
+				break;
+			case this.binType.dump:
+				this.currentBinType = this.binType.dump;
+				break;
+			default:
+				this.currentBinType = this.binType.preEval;
+				break;
+		}
 		command = command.split ('');
 		this.initProgram ();
+		if (this.currentBinType == this.binType.evalOnce)
+		{
+			this.addProgramCode ('this.tempExec = function (){ ');
+		}
+		if (this.currentBinType == this.binType.dump)
+		{
+			this.addProgramCode (tempName + ' = function () {');
+		}
 		while (this.commandPtr < command.length)
 		{
 			this.compileCommand (command [this.commandPtr], command);
 			this.commandPtr ++;
+		}
+		if (this.currentBinType == this.binType.evalOnce)
+		{
+			this.addProgramCode ('};');
+			eval (this.program.code);
+			this.program.exec = this.tempExec;
+		}
+		if (this.currentBinType == this.binType.dump)
+		{
+			this.addProgramCode ('};');
+			document.write ('<script type="text/javascript">' + this.program.code + '</script>');
+			this.program.exec = eval (tempName);
 		}
 		return (this.program);
 	}

@@ -1,7 +1,7 @@
 /* hello world speed test for interpreter */
 document.write ('This program will run the BF "Hello World!" script through the interpreter numerous times to get an average execution time.<br /><br />');
 var cycles = 1000;
-bfi = new BrainFuckInterpreter ();
+bfi = new BFJSInterpreter ();
 document.write ('Executing interpreter ' + cycles + ' times...');
 var startTime = new Date ();
 for (var i = 0; i < cycles; i++)
@@ -11,7 +11,7 @@ for (var i = 0; i < cycles; i++)
 }
 var stopTime = new Date ();
 var execTime = stopTime - startTime;
-var avg = execTime / 1000;
+var avg = execTime / cycles;
 document.write ('Done.<br />');
 document.write ('Start Time: ' + startTime + '<br />');
 document.write ('Stop Time: ' + stopTime + '<br />');
