@@ -3,7 +3,7 @@
  * By Kurtis Kopf
  */
 
-function BrainFuckInterpreter ()
+function BFJSInterpreter ()
 {
 	this.stack = [];
 	this.ptr = 0;
