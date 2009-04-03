@@ -1,6 +1,4 @@
 #labels Featured,Phase-Implementation
-#Example uses for the interpreter and compiler.
-
 = Introduction =
 These examples are taken from the test cases included in the source/download.
 
@@ -11,7 +9,7 @@ To use the interpreter:
   # Do something with the interpreter's output stream.
 
 {{{
-var bfi = new BrainFuckInterpreter();
+var bfi = new BFJSInterpreter();
 var helloWorld = '++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.';
 bfi.execute(helloWorld);
 document.write('Output from interpreter: ' + bfi.outStream');
@@ -24,14 +22,14 @@ document.write('Output from interpreter: ' + bfi.outStream');
 == Compiler ==
 To use the compiler:
   # Instantiate a new compiler.
-  # Call the compile() method of the instantiated compiler with a string containing the BF program.
+  # Call the compile() method of the instantiated compiler with a string containing the BF program, and optionally the desired compilation mode. The current supported modes are "alwayseval" (the original mode), "preeval", and "dump".
   # Run the compiled program object returned from the compile() method using the run() method of the compiled object.
   # Use the output from the program for something.
 
 {{{
-var bfc = new BrainFuckJSCompiler();
+var bfc = new BFJSCompiler();
 var helloWorld = '++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.';
-var prog = bfc.compile(helloWorld);
+var prog = bfc.compile(helloWorld, 'preeval');
 var output = prog.run();
 document.write('Program Output: ' + output);
 }}}
