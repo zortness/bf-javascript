@@ -1,5 +1,5 @@
 #labels Featured,Phase-Implementation,Phase-Requirements
-#Results from the provided test cases.
+*Updated 2009-04-03*
 
 = Introduction =
 This page contains various results and interpretations from running the provided test cases in different environments for comparison.
@@ -11,29 +11,47 @@ This page contains various results and interpretations from running the provided
   * Chasis: Dell Optiplex 755
 
 == Observed Results ==
-=== Internet Explorer 8.0.6001 Beta 2 ===
-  * Interpreter: 2.016 - 2.031 ms average
-  * Compiler: 0.875 - 0.891 ms average
+=== Internet Explorer 8.0.6001.18372 RC1 ===
+  * Interpreter: 1.562 ms average
+  * Compiler (alwayseval): 3.938 ms average
+  * Compiler (preeval): 0.406 ms average
+  * Compiler (dump): 0.390 ms average
 
-=== Firefox 3.0.4 Results ===
-  * Interpreter: 0.856 - 0.898 ms average
-  * Compiler: 9.116 - 9.225 ms average
+=== Firefox 3.0.8 Results ===
+  * Interpreter: 0.307 ms average
+  * Compiler (alwayseval): 0.573 ms average
+  * Compiler (preeval): 0.088 ms average
+  * Compiler (dump): 0.090 ms average
 
-=== Firefox 3.2a1pre (nightly build 12/09/2009) JIT Enabled ===
-  * Interpreter: 0.115 - 0.135 ms average
-  * Compiler: 0.720 - 0.755 ms average
+=== Firefox 3.6a1pre (nightly build 2009-04-03) JIT Enabled ===
+  * Interpreter: 0.075 ms average
+  * Compiler (alwayseval): 0.170 ms average
+  * Compiler (preeval): 0.035 ms average
+  * Compiler (dump): 0.036 ms average
 
-=== Google Chrome 0.4.154.29 ===
-  * Interpreter: 0.155 - 0.198 ms average
-  * Compiler: 0.021 - 0.065 ms average
+=== Google Chrome 1.0.154.53 ===
+  * Interpreter: 0.151 ms average
+  * Compiler (alwayseval): 0.021 ms  average
+  * Compiler (preeval): 0.018 ms average
+  * Compiler (dump): 0.015 ms average
 
-=== Opera 9.62 10467 ===
-  * Interpreter: 0.578 - 0.593 ms average
-  * Compiler: 0.359 - 0.391 ms average
+=== Opera 9.64 10487 ===
+  * Interpreter: 0.578 ms average
+  * Compiler (alwayseval): 0.359 ms average
+  * Compiler (preeval): 0.157 ms average
+  * Compiler (dump): 0.125 ms average
 
 === Safari 3.1.2 (525.21) ===
-  * Interpreter: 0.656 - 0.687 ms average
-  * Compiler: 1.047 - 1.062 ms average
+  * Interpreter: 0.044 ms average
+  * Compiler (alwayseval): 2.05 ms average
+  * Compiler (preeval): 0.019 ms average
+  * Compiler (dump): 0.018 ms average
 
 == Interpretations and Thoughts ==
-The usual results one would expect in comparing a compiled execution vs an interpreted execution would be that the compiled code is much faster than the interpreted code. This does not appear to be the case in most browsers (at least on Environment 1 for the time being). Chrome and V8 are clearly the winners in this phase of the tests, far outperforming any other JavaScript implementations. I find it interesting that the new Firefox nightly build with Tracemonkey enabled performs many orders of magnitude better than its predecessor, but still seems to favor the interpreter over the compiler. IE8, Opera, and Chrome mimic the traditional assumption that the compiled code should execute faster, while both versions of Firefox and Safari break this tradition.
+Comparing these results to the last dataset, we can see that all of the browsers have improved greatly since December of 08, except for Opera, whose numbers remain identical.
+
+The "alwayseval" mode is the original compiler mode from the previous versions of this project (pre-rev6). There is an obvious improvement with both the "preeval" and "dump" modes in the compiler, at least when it comes to running the same code over and over again in a loop, which, granted, is a very specific test case.
+
+Although IE8 improved on its last set of numbers, it is still orders of magnitude slower than the other browsers in all cases.
+
+Chrome and the latest beta version of Safari have a definite edge over the competition, but I wouldn't count out the Mozilla team.
